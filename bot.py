@@ -67,7 +67,11 @@ if __name__ == "__main__":
     caption_bot = TelegramCaptionBot()
     
     # Run in appropriate mode based on configuration
-    if config.DEBUG:
+    if config.DEBUG or not config.WEBHOOK_URL:
+        # Use polling mode for debugging or if webhook URL is not set
+        logger.info("Running bot in polling mode")
         caption_bot.run_polling()
     else:
+        # Use webhook mode for production
+        logger.info("Running bot in webhook mode")
         caption_bot.run_webhook()

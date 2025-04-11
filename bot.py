@@ -36,7 +36,7 @@ class TelegramCaptionBot:
         self.application.add_handler(CommandHandler("status", command_handlers.status_command))
         
         # Channel post handler
-        self.application.add_handler(MessageHandler(filters.CHANNEL, message_handlers.handle_channel_post))
+        self.application.add_handler(MessageHandler(filters.ChatType.CHANNEL, message_handlers.handle_channel_post))
         
         # Error handler
         self.application.add_error_handler(self._error_handler)

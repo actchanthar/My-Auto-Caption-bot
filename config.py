@@ -1,21 +1,29 @@
 import os
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
-class Config:
-    # Telegram Config
-    BOT_TOKEN = os.getenv('BOT_TOKEN')
-    CHANNEL_ID = os.getenv('CHANNEL_ID')
-    ADMINS = [int(id) for id in os.getenv('ADMINS', '').split(',') if id]  # Add your user ID
-    
-    # MongoDB Config
-    MONGO_URI = os.getenv('MONGO_URI')
-    DB_NAME = os.getenv('DB_NAME', 'caption_bot')
-    
-    # Caption Settings
-    CAPTION_TEMPLATE = os.getenv('CAPTION_TEMPLATE', "📢 {text}\n\n🔔 @ChannelName")
-    DEFAULT_HASHTAGS = os.getenv('DEFAULT_HASHTAGS', "#Update #News")
-    ENABLED = os.getenv('ENABLED', 'true').lower() == 'true'
+# Bot Configuration
+TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+if not TOKEN:
+    raise ValueError("No TELEGRAM_BOT_TOKEN found in environment variables")
 
-config = Config()
+# Channel Configuration
+CHANNEL_ID = os.getenv('CHANNEL_ID')
+if not CHANNEL_ID:
+    raise ValueError("No CHANNEL_ID found in environment variables")
+
+# Caption Configuration
+CUSTOM_CAPTION_PREFIX = os.getenv('CUSTOM_CAPTION_PREFIX', '📢 ')
+CUSTOM_CAPTION_SUFFIX = os.getenv('CUSTOM_CAPTION_SUFFIX', '\n\n👉 @YourChannelName')
+
+# Logging Configuration
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+
+# Webhook Configuration (for production)
+PORT = int(os.getenv('PORT', 8443))
+WEBHOOK_URL = os.getenv('WEBHOOK_URL', None)  # Set in production
+
+# Development mode flag
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'

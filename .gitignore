@@ -1,9 +1,39 @@
+# Environment variables
 .env
+
+# Python cache files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.DS_Store
-.env.local
+*.py[cod]
+*$py.class
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
 venv/
+ENV/
+
+# Data directory (contains settings)
+data/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
 *.log

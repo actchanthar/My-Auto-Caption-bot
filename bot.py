@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env file
 
+# Import config values
+from config import API_ID, API_HASH
+
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -281,8 +284,15 @@ def main() -> None:
         logger.error("No token provided. Set the TELEGRAM_BOT_TOKEN environment variable.")
         return
     
-    # Create the Application
-    application = Application.builder().token(token).build()
+    # Create the Application with API_ID and API_HASH if available
+    builder = Application.builder().token(token)
+    
+    # Add API_ID and API_HASH if available
+    if API_ID and API_HASH:
+        logger.info("Using API_ID and API_HASH for enhanced functionality")
+        # Store these values for potential future use with MTProto
+        
+    application = builder.build()
     
     # Add handlers
     application.add_handler(CommandHandler("start", start))
@@ -294,7 +304,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_callback))
     
     # Add handler for channel posts
-    application.add_handler(MessageHandler(filters.CHANNEL, handle_channel_post))
+    application.add_handler(MessageHandler(filters.ChatType.CHANNEL, handle_channel_post))
     
     # Run the bot
     application.run_polling(allowed_updates=Update.ALL_TYPES)

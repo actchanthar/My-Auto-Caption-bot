@@ -9,6 +9,10 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 DATABASE_NAME = "caption_bot_db"
 
+# Telegram API configuration (for MTProto if needed)
+API_ID = os.getenv("API_ID")
+API_HASH = os.getenv("API_HASH")
+
 # Collections
 CHANNELS_COLLECTION = "channels"
 CAPTIONS_COLLECTION = "captions"

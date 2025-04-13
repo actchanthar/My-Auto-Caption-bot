@@ -306,8 +306,28 @@ def main() -> None:
     # Add handler for channel posts
     application.add_handler(MessageHandler(filters.ChatType.CHANNEL, handle_channel_post))
     
-    # Run the bot
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    # Check if running on Heroku
+    if 'PORT' in os.environ:
+        # Running on Heroku, set up webhook
+        port = int(os.environ.get('PORT', 8443))
+        heroku_app_name = os.environ.get("HEROKU_APP_NAME")
+        
+        if heroku_app_name:
+            # Set webhook using the Heroku app URL
+            webhook_url = f"https://{heroku_app_name}.herokuapp.com/{token}"
+            application.run_webhook(
+                listen="0.0.0.0",
+                port=port,
+                url_path=token,
+                webhook_url=webhook_url
+            )
+        else:
+            logger.error("Error: HEROKU_APP_NAME environment variable not set")
+            logger.info("Falling back to polling method")
+            application.run_polling(allowed_updates=Update.ALL_TYPES)
+    else:
+        # Not on Heroku, use polling
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     main()
